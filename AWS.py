@@ -17,7 +17,7 @@ def amazonSearchByKeywords(keywords,page,awsKeyId,awsSecretAccessKey,awsAffiliat
         AWSAccessKeyId=awsKeyId,
         AssociateTag = awsAffiliateId,
         ItemPage=page,
-        ResponseGroup='ItemAttributes,SalesRank')
+        ResponseGroup='ItemAttributes,SalesRank,EditorialReview')
     
 
     #Can add Version='2009-01-06'. What is it BTW? API version?

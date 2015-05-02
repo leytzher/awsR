@@ -28,6 +28,7 @@ PackageHeightVector<-c()
 PackageLengthVector<-c()
 PackageWeightVector<-c()
 PackageWidthVector<-c()
+EditorialReviewVector<-c()
 TitleVector<-c()
 
 
@@ -63,11 +64,14 @@ PackageLength<-"//tns:Item//tns:PackageDimensions//tns:Length"
 PackageWeight<-"//tns:Item//tns:PackageDimensions//tns:Weight"
 PackageWidth<-"//tns:Item//tns:PackageDimensions//tns:Width"
 Title<-"//tns:Item//tns:Title"
+EditorialReview<-"//tns:Item//tns:EditorialReview//tns:Content"
+
 
 #Get the information
 salesRank<-unlist(xpathApply(xml,SalesRank,namespaces=namespace,xmlValue))
 class(salesRank)<-"numeric"
 
+editorialReview<-unlist(xpathApply(xml,EditorialReview,namespaces=namespace,xmlValue))
 productBinding<-unlist(xpathApply(xml,Binding,namespaces=namespace,xmlValue))
 productBrand<-unlist(xpathApply(xml,Brand,namespaces=namespace,xmlValue))
 productColor<-unlist(xpathApply(xml,Color,namespaces=namespace,xmlValue))
@@ -116,6 +120,7 @@ PackageLengthVector<-append(PackageLengthVector,packageLength[product])
 PackageWeightVector<-append(PackageWeightVector,packageWeight[product])
 PackageWidthVector<-append(PackageWidthVector,packageWidth[product])
 TitleVector<-append(TitleVector,productTitle[product])
+EditorialReviewVector<-append(EditorialReviewVector,editorialReview[product])
 
 
 
@@ -124,7 +129,7 @@ TitleVector<-append(TitleVector,productTitle[product])
 
 
 # Combine results in a dataframe
-data<-data.frame(TitleVector,BindingVector,BrandVector,ColorVector,PriceVector,SalesRankVector,ItemHeightVector,ItemLengthVector,ItemWidthVector,ItemWeightVector,PackageHeightVector,PackageLengthVector,PackageWidthVector,PackageWeightVector)
+data<-data.frame(TitleVector,EditorialReviewVector,BindingVector,BrandVector,ColorVector,PriceVector,SalesRankVector,ItemHeightVector,ItemLengthVector,ItemWidthVector,ItemWeightVector,PackageHeightVector,PackageLengthVector,PackageWidthVector,PackageWeightVector)
 
 #Fix units to SI
 data$PriceVector=data$PriceVector/100
@@ -136,3 +141,6 @@ data$ItemLengthVector=data$ItemLengthVector*0.0254
 data$ItemWidthVector=data$ItemWidthVector*0.0254
 data$ItemWeightVector=data$ItemWeightVector*0.00453592*1000
 data$PackageWeightVector=data$PackageWeightVector*0.00453592*1000
+
+
+
