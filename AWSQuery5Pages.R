@@ -11,7 +11,7 @@ setwd("~/Documents/asm/R")
 namespace<-c(tns="http://webservices.amazon.com/AWSECommerceService/2011-08-01")
 
 #Set keywords: use "+" for space
-keywords<-"Car+Litter+Bag"
+keywords<-"Yoga+mat"
 write.csv(keywords,file="keywords.csv",row.names=FALSE,col.names=NA)
 
 

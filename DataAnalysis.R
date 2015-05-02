@@ -65,11 +65,102 @@ docs<-tm_map(docs,stemDocument)
 #strip whitespace
 docs<-tm_map(docs,stripWhitespace)
 
+#All as plain text
+docs <- tm_map(docs, PlainTextDocument)
 
 ##################
-# Pre-processing
+# Stage the data
 
+dtm<-DocumentTermMatrix(docs)
 
+# transposing the matrix
+tdm<-TermDocumentMatrix(docs)
 
+#######################
+# Explore the data
 
+# Organize terms by their frequency
+freq<-colSums(as.matrix(dtm))
+length(freq)
+
+ord<-order(freq)
+########################
+# Focus
+
+# remove sparse terms
+# this makes a matrix that is 10% empty space, maximum
+dtms<-removeSparseTerms(dtm,0.1)
+
+#######################
+# Word frequency
+
+freq[head(ord)]
+
+freq[tail(ord)]
+
+#######################
+# Check out frequency of frequencies
+
+head(table(freq),20)
+tail(table(freq),20)
+
+freq<-colSums(as.matrix(dtms))
+
+findFreqTerms(dtm,lowfreq=50)
+
+wf<-data.frame(word=names(freq),freq=freq)
+
+############################
+# Plot word frequencies (words appearing more than 30 times)
+
+p<-ggplot(subset(wf,freq>30),aes(word,freq))
+p<-p+geom_bar(stat="identity")
+p<-p+theme(axis.text.x=element_text(angle=45, hjust=1))
+p
+
+###################################
+# Making a word cloud
+set.seed(142)
+wordcloud(names(freq),freq,min.freq=5)
+
+####################################
+# Plot the 100 most frequently used words
+
+set.seed(142)
+wordcloud(names(freq),freq,max.words=100)
+
+####################################
+# Add some color and plot words occurring at least 20 times
+
+set.seet(142)
+wordcloud(names(freq),freq,min.freq=20,scale=c(5,.1), color=brewer.pal(6,"Dark2"))
+
+#######################################
+# Plot the 100 most frequently occurring words
+
+set.seed(142)
+dark2<-brewer.pal(6,"Dark2")
+wordcloud(names(freq),freq,max.words=100,rot.per=0.2, colors=dark2)
+
+##########################################
+# Clustering by term similarity
+
+dtmss<-removeSparseTerms(dtm,0.15)
+
+# Hierarchal Clustering
+d<-dist(t(dtmss),method="euclidian")
+fit<-hclust(d=d, method="ward")
+plot(fit,hang=-1)
+
+plot.new()
+plot(fit,hang=-1)
+groups<-cutree(fit,k=5)  #k= number of clusters
+rect.hclust(fit, k=5, border='red')
+
+#########################################
+# K-means clustering
+
+d<-dist(t(dtmss), method="euclidian")
+kfit<-kmeans(d,2)  #2 clusters
+clusplot(as.matrix(d),kfit$cluster, color=T, shade=T, labels=2, lines=0)
 
