@@ -1,22 +1,24 @@
 
 
 # AWS Utility functions
+# Item Lookup
+# Searches for specific characteristics
 # Author: Leytzher Muro
 
 
 
-def amazonSearchByKeywords(keywords,page,awsKeyId,awsSecretAccessKey,awsAffiliateId):
+def itemLookup(itemId,awsKeyId,awsSecretAccessKey,awsAffiliateId):
     import base64, hashlib, hmac, time
     from urllib import urlencode, quote_plus
     base_url = "http://webservices.amazon.com/onca/xml"
     url_params = dict(
         Service='AWSECommerceService', 
-        Operation='ItemSearch', 
-        Keywords= keywords,
-        SearchIndex='All',
+        Operation='ItemLookup', 
+        ItemId= itemId,
+        IdType='ASIN',
+        #SearchIndex='All',
         AWSAccessKeyId=awsKeyId,
         AssociateTag = awsAffiliateId,
-        ItemPage=page,
         ResponseGroup='ItemAttributes,SalesRank')
     
 
@@ -80,19 +82,13 @@ for row in c:
     AWSSecretKey=row[1]
     AWSAffiliateID=row[2]
 
-
-
 # Load keywords
-kwdFile = '/Users/user/Documents/asm/R/keywords.csv'
-kwd = csv.reader(open(kwdFile,"rU"))
+kwd = csv.reader(open('/Users/user/Documents/asm/R/itemId.csv',"rU"))
 for row in kwd:
-    keywords=row[0]
+    itemIdField=row[0]
 
-# Page number
-pageFile = '/Users/user/Documents/asm/R/page.csv'
-pg = csv.reader(open(pageFile,"rU"))
-for row in pg:
-    page=row[0]
+
 
 # Call Search function and create url
-myURL=amazonSearchByKeywords(keywords,page,AWSAccessKeyId,AWSSecretKey,AWSAffiliateID)
+
+myURL= itemLookup(itemIdField,AWSAccessKeyId,AWSSecretKey,AWSAffiliateID)

@@ -11,13 +11,11 @@ setwd("~/Documents/asm/R")
 namespace<-c(tns="http://webservices.amazon.com/AWSECommerceService/2011-08-01")
 
 #Set keywords: use "+" for space
-keywords<-"Car+Litter+Bag"
-pageNumber <- 5
-write.csv(keywords,file="keywords.csv",row.names=FALSE,col.names=NA)
-write.csv(pageNumber,file="page.csv",row.names=FALSE,col.names=NA)
+itemID<-"B009FREAGO"
+write.csv(itemID,file="itemId.csv",row.names=FALSE,col.names=NA)
 
 # Load the main Python script
-python.load("/Users/user/Documents/asm/R/AWS.py")
+python.load("/Users/user/Documents/asm/R/AWS_ItemLookup.py")
 myURL<-python.get("myURL")
 
 # Load XML file
@@ -31,6 +29,6 @@ xml<- xmlParse(query)
 priceQuery<-"//tns:Item//tns:SalesRank"
 price<-unlist(xpathApply(xml,priceQuery,namespaces=namespace,xmlValue))
 class(price)<-"numeric"
-price<-price/100
+
 
 
