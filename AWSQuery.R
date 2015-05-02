@@ -2,10 +2,13 @@
 library(rPython)
 library(XML)
 library(RCurl)
-
+library(xml2)
 
 #Set working directory
 setwd("~/Documents/asm/R")
+
+#Set Amazon namespace
+namespace<-c(tns="http://webservices.amazon.com/AWSECommerceService/2011-08-01")
 
 #Set keywords: use "+" for space
 keywords<-"Bali"
@@ -18,10 +21,10 @@ myURL<-python.get("myURL")
 # Load XML file
 query= getURL(myURL)
 
-# Parse XML file
-xmlfile<-xmlTreeParse(query)
+#read the XML tree into memory
+xml<- xmlParse(query)
 
-# use xmlRoot to access the top node
-xmltop = xmlRoot(xmlfile)
+# Note: the namespace to use is tns
 
+x<-getNodeSet(xml,"//tns:Weight",namespace)
 
