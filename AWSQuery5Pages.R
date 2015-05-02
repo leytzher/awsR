@@ -124,8 +124,15 @@ TitleVector<-append(TitleVector,productTitle[product])
 
 
 # Combine results in a dataframe
+data<-data.frame(TitleVector,BindingVector,BrandVector,ColorVector,PriceVector,SalesRankVector,ItemHeightVector,ItemLengthVector,ItemWidthVector,ItemWeightVector,PackageHeightVector,PackageLengthVector,PackageWidthVector,PackageWeightVector)
 
-QueryData<-cbind(TitleVector,BindingVector,BrandVector,ColorVector,PriceVector,SalesRankVector,ItemHeightVector,ItemLengthVector,ItemWidthVector,ItemWeightVector,PackageHeightVector,PackageLengthVector,PackageWidthVector,PackageWeightVector)
-
-
-
+#Fix units to SI
+data$PriceVector=data$PriceVector/100
+data$PackageHeightVector=data$PackageHeightVector*0.0254
+data$PackageLengthVector=data$PackageLengthVector*0.0254
+data$PackageWidthVector=data$PackageWidthVector*0.0254
+data$ItemHeightVector=data$ItemHeightVector*0.0254
+data$ItemLengthVector=data$ItemLengthVector*0.0254
+data$ItemWidthVector=data$ItemWidthVector*0.0254
+data$ItemWeightVector=data$ItemWeightVector*0.00453592*1000
+data$PackageWeightVector=data$PackageWeightVector*0.00453592*1000
