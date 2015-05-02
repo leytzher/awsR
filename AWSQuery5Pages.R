@@ -123,5 +123,9 @@ TitleVector<-append(TitleVector,productTitle[product])
 }
 
 
+# Combine results in a dataframe
+
+QueryData<-cbind(TitleVector,BindingVector,BrandVector,ColorVector,PriceVector,SalesRankVector,ItemHeightVector,ItemLengthVector,ItemWidthVector,ItemWeightVector,PackageHeightVector,PackageLengthVector,PackageWidthVector,PackageWeightVector)
+
 
 
